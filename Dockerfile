@@ -19,7 +19,7 @@ ENV DJANGO_SUPERUSER_USERNAME=admin
 ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
 
 
-USER 1001
+
 RUN python manage.py migrate
 RUN python manage.py collectstatic --no-input
 # Crear el directorio de datos
@@ -38,4 +38,5 @@ RUN chmod 664 /data/db.sqlite3
 
 # Actualizar la ubicación de la base de datos en la configuración de Django
 ENV DATABASE_URL=sqlite:////data/db.sqlite3
+USER 1001
 CMD ["/app/django_polls.sh"]
