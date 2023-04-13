@@ -4,6 +4,7 @@ FROM bitnami/python:3.9
 RUN groupadd -g 1001 appgroup
 RUN useradd -u 1001 -g 1001 -ms /bin/bash appuser
 
+USER 1001
 WORKDIR /app
 COPY app /app
 RUN pip install --upgrade pip  
