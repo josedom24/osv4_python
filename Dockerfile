@@ -1,25 +1,20 @@
-FROM bitnami/python
+FROM bitnami/python:3.9
 
-ENV BITNAMI_PKG_CHMOD="-R g+rwX"
-USER 1001
-# Copiar la aplicación y los archivos de configuración al contenedor
-WORKDIR /tmp/app
-COPY app /tmp/app 
-ADD ./django_polls.sh /tmp/app/django_polls.sh
-#RUN chmod +x /tmp/app/django_polls.sh
+# Agregar estos comandos
+USER root
+RUN groupadd -g 1001 appgroup
+RUN useradd -u 1001 -g 1001 -ms /bin/bash appuser
 
-# Instalar los requisitos de la aplicación
-sudo -H RUN pip install --upgrade pip  
-sudo -H RUN pip install -r requirements.txt 
-
-# Crear el directorio "static"
-
+WORKDIR /app
+COPY app /app
+RUN pip install --upgrade pip  
+RUN pip install -r requirements.txt
 RUN mkdir static
+COPY django_polls.sh /app/django_polls.sh
+RUN chmod +x django_polls.sh
+RUN chown -R appuser:appgroup /app
 
-# Definir las variables de entorno
 ENV DJANGO_SUPERUSER_PASSWORD=admin
 ENV DJANGO_SUPERUSER_USERNAME=admin
 ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
-
-# Especificar el comando de entrada
-ENTRYPOINT ["sh","/tmp/app/django_polls.sh"]
+ENTRYPOINT ["/app/django_polls.sh"]
