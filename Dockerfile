@@ -1,10 +1,10 @@
 FROM bitnami/python:3.9
 
 # Agregar estos comandos
+USER root
 RUN groupadd -g 1001 appgroup
 RUN useradd -u 1001 -g 1001 -ms /bin/bash appuser
 
-USER 1001
 WORKDIR /app
 COPY app /app
 RUN pip install --upgrade pip  
@@ -16,6 +16,8 @@ ENV DJANGO_SUPERUSER_PASSWORD=admin
 ENV DJANGO_SUPERUSER_USERNAME=admin
 ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
 
+
+USER 1001
 RUN python manage.py migrate
 RUN python manage.py createsuperuser --noinput
 RUN python manage.py collectstatic --no-input
