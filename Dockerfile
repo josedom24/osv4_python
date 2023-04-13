@@ -1,5 +1,7 @@
-FROM registry.access.redhat.com/ubi8/python-39:latest
+FROM bitnami/python
 
+ENV BITNAMI_PKG_CHMOD="-R g+rwX"
+USER 1001
 # Copiar la aplicación y los archivos de configuración al contenedor
 WORKDIR /tmp/app
 COPY app /tmp/app 
@@ -11,8 +13,7 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Crear el directorio "static"
-RUN chown -R 1001:0 /tmp/app
-RUN chmod -R g+w /tmp/app
+
 RUN mkdir static
 
 # Definir las variables de entorno
