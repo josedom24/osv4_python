@@ -17,13 +17,11 @@ RUN chown -R appuser:appgroup /app
 ENV DJANGO_SUPERUSER_PASSWORD=admin
 ENV DJANGO_SUPERUSER_USERNAME=admin
 ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
-ENV DATABASE_URL=sqlite:////data/db.sqlite3
-RUN mkdir /data && touch /data/db.sqlite3 && chown -R appuser:appgroup /data
-
+RUN mkdir /data 
 
 RUN python manage.py migrate
 RUN python manage.py collectstatic --no-input
-
+RUN chown -R appuser:appgroup /data
 # Actualizar la ubicación de la base de datos en la configuración de Django
 
 USER 1001
