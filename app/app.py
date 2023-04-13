@@ -12,6 +12,7 @@ def inicio():
 
 @app.route('/<code>')
 def temperatura(code):
+	prov=os.environ["PROVINCIA"]
 	try:
 		response = requests.get("http://www.aemet.es/xml/municipios/localidad_"+code+".xml")
 		xml = response.content
@@ -21,7 +22,7 @@ def temperatura(code):
 	name=doc.find("nombre").text
 	max=doc.find("prediccion/dia/temperatura").find("maxima").text
 	min=doc.find("prediccion/dia/temperatura").find("minima").text
-	return render_template("temperaturas.html",name=name,max=max,min=min)
+	return render_template("temperaturas.html",name=name,max=max,min=min,prov=prov.title())
 
 if __name__ == '__main__':
 	app.run('0.0.0.0',8080,debug=True)
