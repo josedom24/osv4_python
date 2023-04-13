@@ -1,23 +1,23 @@
 from flask import Flask, request,url_for,render_template,abort
 from lxml import etree
-import requests
+import requests,os
 app = Flask(__name__)	
 
 @app.route('/',methods=["GET","POST"])
 def inicio():
-	doc=etree.parse("sevilla.xml")
+	prov=os.environ["PROVINCIA"]
+	doc=etree.parse(prov+".xml")
 	municipios=doc.findall("municipio")
-	return render_template("inicio.html",municipios=municipios)
+	return render_template("inicio.html",municipios=municipios,prov=prov.title())
 
 @app.route('/<code>')
 def temperatura(code):
-	#try:
-	response = requests.get("http://www.aemet.es/xml/municipios/localidad_"+code+".xml")
-	xml = response.content
-	doc=etree.fromstring(xml)
-
-	#except:
-	#	abort(404)
+	try:
+		response = requests.get("http://www.aemet.es/xml/municipios/localidad_"+code+".xml")
+		xml = response.content
+		doc=etree.fromstring(xml)
+	except:
+		abort(404)
 	name=doc.find("nombre").text
 	max=doc.find("prediccion/dia/temperatura").find("maxima").text
 	min=doc.find("prediccion/dia/temperatura").find("minima").text
