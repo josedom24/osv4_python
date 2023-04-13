@@ -18,7 +18,7 @@ ENV DJANGO_SUPERUSER_PASSWORD=admin
 ENV DJANGO_SUPERUSER_USERNAME=admin
 ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
 ENV DATABASE_URL=sqlite:////data/db.sqlite3
-RUN mkdir data && touch data/db.sqlite3 && chown -R appuser:appgroup /app
+RUN mkdir /data && touch /data/db.sqlite3 && chown -R appuser:appgroup /data
 
 
 RUN python manage.py migrate
