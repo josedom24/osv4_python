@@ -10,6 +10,8 @@ COPY app /app
 RUN pip install --upgrade pip  
 RUN pip install -r requirements.txt
 RUN mkdir static
+ADD ./django_polls.sh /app/django_polls.sh
+RUN chmod +x /app/django_polls.sh
 RUN chown -R appuser:appgroup /app
 
 ENV DJANGO_SUPERUSER_PASSWORD=admin
@@ -19,8 +21,21 @@ ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
 
 USER 1001
 RUN python manage.py migrate
-RUN python manage.py createsuperuser --noinput
 RUN python manage.py collectstatic --no-input
+# Crear el directorio de datos
+RUN mkdir /data
 
+# Establecer los permisos del directorio de datos
+RUN chown -R appuser:appgroup /data
+RUN chmod 775 /data
 
-CMD [ "python", "./manage.py", "runserver", "0.0.0.0:8000"]
+# Mover la base de datos al directorio de datos
+RUN mv /app/db.sqlite3 /data/
+
+# Establecer los permisos adecuados en la base de datos
+RUN chown appuser:appgroup /data/db.sqlite3
+RUN chmod 664 /data/db.sqlite3
+
+# Actualizar la ubicación de la base de datos en la configuración de Django
+ENV DATABASE_URL=sqlite:////data/db.sqlite3
+CMD ["/app/django_polls.sh"]
