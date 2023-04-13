@@ -9,8 +9,8 @@ ADD ./django_polls.sh /tmp/app/django_polls.sh
 #RUN chmod +x /tmp/app/django_polls.sh
 
 # Instalar los requisitos de la aplicación
-#RUN pip install --upgrade pip  
-RUN pip install -r requirements.txt --user
+sudo -H RUN pip install --upgrade pip  
+sudo -H RUN pip install -r requirements.txt 
 
 # Crear el directorio "static"
 
