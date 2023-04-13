@@ -10,8 +10,6 @@ COPY app /app
 RUN pip install --upgrade pip  
 RUN pip install -r requirements.txt
 RUN mkdir static
-COPY django_polls.sh /app/django_polls.sh
-RUN chmod +x django_polls.sh
 RUN chown -R appuser:appgroup /app
 
 ENV DJANGO_SUPERUSER_PASSWORD=admin
