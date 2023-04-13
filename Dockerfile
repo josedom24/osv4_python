@@ -17,6 +17,7 @@ RUN chown -R appuser:appgroup /app
 ENV DJANGO_SUPERUSER_PASSWORD=admin
 ENV DJANGO_SUPERUSER_USERNAME=admin
 ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
+ENV DATABASE_URL=sqlite:////data/db.sqlite3
 RUN mkdir /data 
 
 RUN python manage.py migrate
