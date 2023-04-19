@@ -4,5 +4,5 @@ COPY app /app
 RUN pip install --upgrade pip
 RUN pip3 install --no-cache-dir -r requirements.txt
 ENV PROVINCIA=sevilla
-EXPOSE 8080
+EXPOSE 8000
 CMD [ "python3", "app.py"]

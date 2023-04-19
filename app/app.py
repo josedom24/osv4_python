@@ -25,4 +25,4 @@ def temperatura(code):
 	return render_template("temperaturas.html",name=name,max=max,min=min,prov=prov.title())
 
 if __name__ == '__main__':
-	app.run('0.0.0.0',8080,debug=True)
+	app.run('0.0.0.0',8000,debug=True)
