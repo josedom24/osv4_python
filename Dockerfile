@@ -3,6 +3,6 @@ WORKDIR /app
 COPY app /app
 RUN pip install --upgrade pip
 RUN pip3 install --no-cache-dir -r requirements.txt
-ENV PROVINCIA=sevilla
+ENV PROVINCIA=cadiz
 EXPOSE 8000
 CMD [ "python3", "app.py"]
